@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .header {
+            position: relative;
+            display: block;
+            background-color: darkslategray;
+            width: 100%;
+            height: 70px;
+        }
+
+        .col-1 {
+            width: 8.33%;
+        }
+
+        .col-2 {
+            width: 16.66%;
+        }
+
+        .col-3 {
+            width: 25%;
+        }
+
+        .col-4 {
+            width: 33.33%;
+        }
+
+        .col-5 {
+            width: 41.66%;
+        }
+
+        .col-6 {
+            width: 50%;
+        }
+
+        .col-7 {
+            width: 58.33%;
+        }
+
+        .col-8 {
+            width: 66.66%;
+        }
+
+        .col-9 {
+            width: 75%;
+        }
+
+        .col-10 {
+            width: 83.33%;
+        }
+
+        .col-11 {
+            width: 91.66%;
+        }
+
+        .col-12 {
+            width: 100%;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        [class*=col-] {
+            float: left;
+        }
+
+        [id*=header-] {
+            border: solid black;
+            height: 70px;
+            text-align: center;
+        }
+
+        .col-1 {
+            position: relative;
+        }
+
+        .main {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 350px;
+            background-color: grey;
+        }
+
+        .side {
+            position: relative;
+            width: 15%;
+            height: 350px;
+            float: left;
+        }
+
+        .content {
+            position: relative;
+            width: 70%;
+            height: 350px;
+            float: left;
+            padding: 20px;
+            background-color: white;
+        }
+
+        .side-bar {
+            position: relative;
+            width: 15%;
+            height: 350px;
+            float: left;
+        }
+
+        footer {
+            width: 100%;
+            height: 30px;
+            background-color: teal;
+            clear: both;
+        }
+    </style>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="header">
+    <div id="header-logo" class="col-1">
+        <h5>Logo</h5>
+    </div>
+    <div id="header-home" class="col-1">
+        <h5>Home</h5>
+    </div>
+    <div id="header-about" class="col-1">
+        <h5>About</h5>
+    </div>
+    <div id="header-projects" class="col-1">
+        <h5>Projects</h5>
+    </div>
+    <div id="header-contact" class="col-1">
+        <h5>Contact</h5>
+    </div>
+</div>
+<div class="main">
+    <div class="side">
+        <ul>
+            <li><a href="https://sstruyen.com/" title="link">Truyện</a></li>
+            <li><a href="https://www.vothuat.vn/" title="link">Võ thuật</a></li>
+            <li><a href="https://soundcloud.com/discover" title="link">Nghe nhạc </a></li>
+        </ul>
+    </div>
+    <div class="content">
+        <h2>Welcome</h2>
+        <p style="font-size: small;text-align: justify"> Nỗi bất hạnh lớn nhất của chúng ta là luôn luôn có một kẻ thù
+            để chống lại. Trong suốt hành trình của lịch sử, những kẻ thù mang tên khác nhau. Bất hạnh lớn dần để trở
+            thành hiểm họa khi hai kẻ thù nghịch mang cùng một tên chung.
+
+            Tôi chưa bao giờ được biết về sự công bằng. Nhưng tôi muốn rằng những xác chết anh em phải được chia đều
+            lòng thương tiếc. Trên những nhân danh chúng ta không cúi đầu, nhưng chúng ta phải quàng vòng hoa phúng điếu
+            cho phận người hiu hắt. Chân lý chưa biết nằm ở đâu, nhưng tôi tin rằng chân lý không đến từ bạo lực.
+
+            Đời sống Việt Nam đã dạy chúng ta những bài học vĩ đại. Dạy biết từ một tấm lòng nhỏ nhen đến một tâm hồn
+            cao cả. Dạy từ mưu toan giết chết một người đến kế hoạch giết chết hàng vạn người. Chúng ta biết rõ từ một
+            tên hề mặt phấn môi son đến một tên ngụy quân tử.
+
+            Làng mạc, núi rừng đã thành đấu trường. Phố thị làm sân khấu.
+
+            Thời thơ ấu, qua những bài học lịch sử, lòng tôi xao xuyến biết bao về những tấm gương ái quốc. Tôi đã yêu
+            mến những biên giới quê hương như vòng tay người mẹ ôm hôn che chở đàn con. Lòng tôi, những biên giới cũng
+            được dựng lên từ đó. Không phải những biên giới của thù hận mà chỉ là lằn mức địa lý chia những cuộc chơi
+            riêng đầy quen thuộc và thân ái.
+
+            Lớn lên, tôi dần dần rơi vào những hoài nghi. Những hoài nghi như đám mây đen, đe dọa cơn bão lớn. Tôi biết
+            rằng khi cơn bão đến, những gì đẹp đẽ được nuôi dưỡng từ ấu thơ sẽ bị cuốn phăng đi.
+
+            Đã bao nhiêu năm tháng tôi ngồi nhìn những mùa nước lên. Thành phố Huế mỗi năm đều có những cơn lụt. Một đôi
+            lần lụt lớn, nước nguồn ồ ạt mang về bao nhiêu của cải của rừng sâu: voi, cọp, bò rừng, trăn, gỗ quí... Vốn
+            liếng ẩn giấu của thiên nhiên lao đi trong một tốc độ cuồng nhiệt. Tất cả đều ngơ ngác, lạc lối, trần trụi.
+
+            Nhiều lần, tôi đã mong được thấy những giá trị hão huyền, bén rễ sâu xa trong tâm não tôi, được tống ra
+            ngoài, trong cách thế đó.
+
+            Tôi không phải là kẻ dễ mất niềm tin, nhưng trong tôi, rất vô tình những trái độc đã làm mùa của chúng. </p>
+
+    </div>
+    <div class="side-bar">
+        <p></p>
+    </div>
+</div>
+<footer>
+    <h3></h3>
+</footer>
+</body>
+</html>
