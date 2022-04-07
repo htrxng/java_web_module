@@ -1,0 +1,40 @@
+*, *:before *:after { box-sizing: border-box; }
+.frame {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 75px; height: 75px;
+    margin: auto;
+    border-radius: 100%;
+    background: #f46159;
+    transform: scale(3);
+
+}
+
+.star {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 0; height: 0;
+    margin: auto;
+    border-width: 0 6px 16px;
+    border-style: solid;
+    border-color: transparent transparent #fbe069;
+    transform: translateY(-14px);
+
+}
+
+.star:before, .star:after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-color: transparent;
+}
+.star:before {
+    border-width: 15px 22px;
+    border-bottom-color: #fbe069;
+    transform: translate(-16px, 1px) rotate(35deg);
+}
+.star:after {
+    border-width: 15px 22px;
+    border-bottom-color: #fbe069;
+    transform: translate(-28px, 1px) rotate(-35deg);
+}
