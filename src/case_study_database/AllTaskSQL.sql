@@ -331,5 +331,150 @@ from khach_hang;
 
 -- SQL NÂNG CAO
 
+/*
+21.	Tạo khung nhìn có tên là v_nhan_vien để lấy được thông tin của tất cả các nhân viên có địa chỉ là “Hải Châu” 
+và đã từng lập hợp đồng cho một hoặc nhiều khách hàng bất kì với ngày lập hợp đồng là “12/12/2019”.
+*/
+create view v_nhan_vien as (select nhan_vien.ma_nhan_vien, nhan_vien.ho_ten
+from hop_dong
+inner join nhan_vien on nhan_vien.ma_nhan_vien = hop_dong.ma_nhan_vien
+where nhan_vien.dia_chi like "%Đà Nẵng%" and  hop_dong.ngay_lam_hop_dong = '2021-04-25');
+select * from v_nhan_vien;
+
+/*
+22.	Thông qua khung nhìn v_nhan_vien thực hiện cập nhật địa chỉ thành “Liên Chiểu” 
+đối với tất cả các nhân viên được nhìn thấy bởi khung nhìn này.
+*/
+set sql_safe_updates = 0;
+update nhan_vien
+set dia_chi = "Liên Chiểu"
+where nhan_vien.ma_nhan_vien in (select nhan_vien.ma_nhan_vien from
+(select nhan_vien.ma_nhan_vien from v_nhan_vien) as x );
+set sql_safe_updates = 1;
+
+/*
+23.	Tạo Stored Procedure sp_xoa_khach_hang dùng để xóa thông tin của một khách hàng nào đó 
+với ma_khach_hang được truyền vào như là 1 tham số của sp_xoa_khach_hang.
+*/
+delimiter //
+create procedure sp_xoa_khach_hang(in ma_khach_hang int)
+begin 
+	delete khach_hang from khach_hang where khach_hang.ma_khach_hang = ma_khach_hang;
+end //
+delimiter ;
+
+call sp_xoa_khach_hang(9);
+
+/*
+24.	Tạo Stored Procedure sp_them_moi_hop_dong dùng để thêm mới vào bảng hop_dong với yêu cầu 
+sp_them_moi_hop_dong phải thực hiện kiểm tra tính hợp lệ của dữ liệu bổ sung, với nguyên tắc 
+không được trùng khóa chính và đảm bảo toàn vẹn tham chiếu đến các bảng liên quan.
+*/
+delimiter //
+drop procedure if exists sp_them_moi_hop_dong //
+create procedure sp_them_moi_hop_dong(in ma_hop_dong int, in ma_nhan_vien int, in ma_khach_hang int,
+in ma_dich_vu int, in ngay_lam_hop_dong date, in ngay_ket_thuc date,in tien_dat_coc double,in tong_tien double)
+begin 
+set @x = (select count(ma_hop_dong) from hop_dong where hop_dong.ma_hop_dong = ma_hop_dong group by hop_dong.ma_hop_dong);
+if((@x is null)
+and (select ma_nhan_vien from nhan_vien where nhan_vien.ma_nhan_vien = ma_nhan_vien)
+and (select ma_khach_hang from khach_hang where khach_hang.ma_khach_hang = ma_khach_hang)
+and (select ma_dich_vu from dich_vu where dich_vu.ma_dich_vu = ma_dich_vu)
+and (select ngay_ket_thuc > ngay_lam_hop_dong)) then
+insert into hop_dong values (ma_hop_dong,ma_nhan_vien,ma_khach_hang,ma_dich_vu,ngay_lam_hop_dong,ngay_ket_thuc,tien_dat_coc,tong_tien);
+else 
+signal sqlstate '45000' set message_text = 'Dữ liệu sai';
+end if;
+end // 
+delimiter ;
+
+call furama_manager.sp_them_moi_hop_dong(13, 1, 2, 2, '2022/04/09', '2022/04/09', 200000, 2000000);
+
+/*
+25.	Tạo Trigger có tên tr_xoa_hop_dong khi xóa bản ghi trong bảng hop_dong thì hiển thị tổng số lượng 
+bản ghi còn lại có trong bảng hop_dong ra giao diện console của database.
+Lưu ý: Đối với MySQL thì sử dụng SIGNAL hoặc ghi log thay cho việc ghi ở console.
+*/
+delimiter //
+drop trigger if exists tr_xoa_hop_dong //
+create trigger tr_xoa_hop_dong after delete on hop_dong for each row
+begin 
+set @x = (select count(*) as count from hop_dong);
+end ; //
+delimiter ;
+set @x = 0;
+delete from hop_dong where hop_dong.ma_hop_dong = 13 ;
+select @x as 'total amount deleted' ;
+
+/*
+	26.	Tạo Trigger có tên tr_cap_nhat_hop_dong khi cập nhật ngày kết thúc hợp đồng, 
+    cần kiểm tra xem thời gian cập nhật có phù hợp hay không, với quy tắc sau: Ngày kết thúc
+    hợp đồng phải lớn hơn ngày làm hợp đồng ít nhất là 2 ngày. Nếu dữ liệu hợp lệ thì cho phép cập nhật, 
+    nếu dữ liệu không hợp lệ thì in ra thông báo “Ngày kết thúc hợp đồng phải lớn hơn ngày làm hợp đồng ít nhất là 2 ngày” trên console của database.
+Lưu ý: Đối với MySQL thì sử dụng SIGNAL hoặc ghi log thay cho việc ghi ở console.
+*/
+delimiter //
+drop trigger if exists tr_cap_nhat_hop_dong //
+create trigger tr_cap_nhat_hop_dong  after update on hop_dong for each row 
+begin 
+if datediff (new.ngay_ket_thuc, old.ngay_lam_hop_dong) < 2 then 
+signal sqlstate '45000' set message_text = "ngày kết thúc hợp đồng phải lớn hơn ngày làm hợp đồng ít nhất là 2 ngày";
+end if;
+end; //
+ delimiter ;
+ update `furama_manager`.`hop_dong` set `ngay_ket_thuc` = '2020-12-10' where (`ma_hop_dong` = '1');
+ 
+ /*
+ 27.	Tạo Function thực hiện yêu cầu sau:
+ a.	Tạo Function func_dem_dich_vu: Đếm các dịch vụ đã được sử dụng với tổng tiền là > 2.000.000 VNĐ.
+ */
+ delimiter //
+ drop function if exists func_dem_dich_vu //
+ create function func_dem_dich_vu() returns int 
+ deterministic 
+ begin
+ create temporary table temp 
+	(select count(distinct ma_dich_vu) from hop_dong where ma_dich_vu in (select distinct ma_dich_vu from hop_dong)
+    group by ma_dich_vu having sum(tong_tien) > 2000000); 
+	set @tong_so_dich_vu = (select count(*) from temp);
+    drop temporary table temp;
+    return @tong_so_dich_vu;
+end ;
+select func_dem_dich_vu() as "Số lượng dịch vụ có tổng tiền trên 2000000"
+
+/*
+b.	Tạo Function func_tinh_thoi_gian_hop_dong: Tính khoảng thời gian dài nhất tính từ lúc bắt đầu 
+làm hợp đồng đến lúc kết thúc hợp đồng mà khách hàng đã thực hiện thuê dịch vụ
+ (lưu ý chỉ xét các khoảng thời gian dựa vào từng lần làm hợp đồng thuê dịch vụ, không xét trên toàn bộ các lần làm hợp đồng).
+ Mã của khách hàng được truyền vào như là 1 tham số của function này.
+*/
+delimiter //
+drop function if exists func_tinh_thoi_gian_hop_dong //
+create function func_tinh_thoi_gian_hop_dong(ma_khach_hang int) returns int
+deterministic 
+begin 
+	set @thoi_gian_dai_nhat = (select max( datediff (hop_dong.ngay_ket_thuc, hop_dong.ngay_lam_hop_dong)) from hop_dong
+    where hop_dong.ma_khach_hang = ma_khach_hang);
+    return @thoi_gian_dai_nhat;
+end ;
+select func_tinh_thoi_gian_hop_dong(4) as "thoi gian dai nhat" 	
+
+/*
+28.	Tạo Stored Procedure sp_xoa_dich_vu_va_hd_room để tìm các dịch vụ được thuê bởi khách hàng với 
+loại dịch vụ là “Room” từ đầu năm 2015 đến hết năm 2019 để xóa thông tin của các dịch vụ đó 
+(tức là xóa các bảng ghi trong bảng dich_vu) và xóa những hop_dong sử dụng dịch vụ liên quan 
+(tức là phải xóa những bản gi trong bảng hop_dong) và những bản liên quan khác.
+*/
+
+
+
+
+
+
+
+
+
+
+
 
 
