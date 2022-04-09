@@ -83,7 +83,7 @@
             display: block;
             width: 100%;
             height: 350px;
-            background-color: grey;
+            background-color: cornflowerblue;
         }
 
         .side {
@@ -115,6 +115,23 @@
             background-color: teal;
             clear: both;
         }
+
+        @media screen  and (max-width: 1080px) {
+            [class*=col-] {
+                width: 50%;
+            }
+        }
+        @media screen  and (max-width: 786px) {
+            [class*=col-] {
+                width: 75%;
+            }
+        }
+        @media screen  and (max-width: 500px) {
+            [class*=col-] {
+                width:100%;
+            }
+        }
+            
     </style>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -183,7 +200,7 @@
     </div>
 </div>
 <footer>
-    <h3></h3>
+    <h3>facebook 2022</h3>
 </footer>
 </body>
 </html>

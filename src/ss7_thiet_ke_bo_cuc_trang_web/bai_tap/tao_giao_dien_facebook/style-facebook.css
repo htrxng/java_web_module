@@ -1,0 +1,87 @@
+#header {
+    width: 100%;
+    height: 50px;
+    background-color: #0a53be;
+    position: fixed;
+    top: 0;
+    padding: 10px;
+}
+#body {
+    width: 100%;
+
+}
+#left{
+    float: left;
+    width: 15%;
+    height: 200vh;
+    background-color: #0d6efd;
+}
+#content {
+    float: left;
+    width: 65%;
+    height: auto;
+    background-color: wheat;
+}
+#sidebar {
+    float: left;
+    width: 15%;
+    height: 200vh;
+    background-color: #0d6efd ;
+}
+#icon {
+    float: left;
+}
+#name {
+    float: left;
+}
+#home {
+    float: left;
+    padding-left: 40px;
+    padding-top: 20px;
+    padding-bottom: 30px;
+}
+#friends {
+    float: left;
+    padding-left: 40px;
+    padding-top: 20px;
+    padding-bottom: 30px;
+}
+#watch {
+    float: left;
+    padding-left: 40px;
+    padding-top: 15px;
+    padding-bottom: 30px;
+}
+#shop {
+    float: left;
+    padding-left: 40px;
+    padding-top: 15px;
+    padding-bottom: 30px;
+}
+#notification {
+    float: left;
+    padding-left: 40px;
+    padding-top: 15px;
+    padding-bottom: 30px;
+}
+#menu {
+    float: left;
+    padding-left: 40px;
+    padding-top: 15px;
+    padding-bottom: 30px;
+}
+#content {
+    margin-top: 70px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+#mo-theo-loi-giai-dieu {
+    justify-content: normal;
+}
+footer {
+    margin-top: 10px;
+    height: 30px;
+    width: 100%;
+    background-color: #ffc720;
+    clear: both;
+}

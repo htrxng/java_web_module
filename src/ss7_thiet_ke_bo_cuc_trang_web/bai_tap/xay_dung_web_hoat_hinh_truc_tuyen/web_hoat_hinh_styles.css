@@ -1,19 +1,38 @@
-body {
-    font-family: Arial;
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
+
+#header {
+    text-align: center;
+    width: 100%;
+    height: 100px;
+    background-color: #0c63e4;
+    position: fixed;
+    top: 0;
 }
 #menu {
     height: 100px;
     padding:0;
     margin:0;
-    background-color: #000000;
+    background-color: pink;
     border: 1px solid #CDCDCD;
     width: 100%;
     position: fixed;
-    top: 20%;
-}
-header{
-    position: fixed;
-    top: 0;
+    top: 100px;
 }
 #menu ul, #menu li{
     padding:0;
@@ -38,7 +57,7 @@ header{
     text-decoration: none;
     text-align: center;
     line-height: 30px;
-    background-color: darkred;
+    background-color:  #d63384;
     color: white;
 }
 
@@ -60,64 +79,49 @@ header{
 #menu ul li:hover ul{
     visibility: visible;
 }
-#mon-phai {
-    width: 25%;
+#the-loai {
+    width: 33%;
     height: 100%;
     font-size: 15px;
     text-align: center;
     border: #227374;
     border-collapse: collapse;
 }
-#luyen-cong {
-    width: 25%;
+#thinh-hanh {
+    width: 33%;
     height: 100%;
     font-size: 15px;
     text-align: center;
     border: #227374;
     border-collapse: collapse;
 }
-#tap-chi {
-    width: 25%;
+#quoc-gia {
+    width: 33%;
     height: 100%;
     font-size: 15px;
     text-align: center;
     border: #227374;
     border-collapse: collapse;
 }
-#trang-bi {
-    width: 25%;
-    height: 100%;
-    font-size: 15px;
-    text-align: center;
-    border: #227374;
-    border-collapse: collapse;
+.video-de-xuat {
+    margin-left: 30px;
 }
-header {
-    text-align: center;
+a{
+    text-decoration: none;
+}
+.right-sidebar{
     width: 100%;
-    height: 200px;
-    background-color: #227374;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 300px;
 }
-.main {
-    width: 100%;
-    height: 500px;
+#body {
+    display: flex;
+    flex-direction: row;
 }
-.section-side {
-
-    width: 60%;
-    height: 500px;
-    background-color: #f46159;
-    float: left;
-}
-.aside-side{
-
-    width: 40%;
-    height: 500px;
-    background-color: brown;
-    float: left;
-}
-footer {
-    width: 100%;
-    height: 50px;
-    background-color: darkcyan;
+@media screen and (max-width: 768px){
+    section{
+        flex-direction: column-reverse;
+    }
 }
