@@ -8,13 +8,13 @@ import java.io.IOException;
 @WebServlet(name = "CalculatorServlet", urlPatterns = "/calculator")
 public class CalculatorServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Double result = null;
+        String message = "End calculator!";
+        try {
         double value1 = Double.parseDouble(request.getParameter("first_operand"));
         String operator = request.getParameter("operator");
         double value2 = Double.parseDouble(request.getParameter("second_operand"));
         Calculator calculator = new Calculator();
-        Double result = null;
-        String message = "End calculator!";
-        try {
             switch (operator) {
                 case "plus":
                     result = calculator.plus(value1, value2);

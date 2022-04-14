@@ -13,7 +13,7 @@
   </head>
   <body>
 
-  <form action="/calculator" method="post">
+  <form action="${pageContext.request.contextPath}/calculator" method="post">
     <label>Operator</label>
     <label>First Operand</label>
     <input type="number" name="first_operand" placeholder="Enter a"> <br>

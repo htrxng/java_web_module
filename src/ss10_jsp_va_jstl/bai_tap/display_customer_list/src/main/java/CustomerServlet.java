@@ -13,6 +13,7 @@ import java.util.List;
 public class CustomerServlet extends HttpServlet {
     static List<Customer>  customerList = new ArrayList<>();
     static {
+        System.out.println("static");
         Customer customer1 = new Customer("Nguyen Huu Tiep", "1/1/1993", "Quảng Trị", "https://haycafe.vn/wp-content/uploads/2021/11/Anh-avatar-dep-chat-lam-hinh-dai-dien.jpg");
         Customer customer2 = new Customer("Luong Thanh Tuan", "1/1/1995", "Quảng Nam", "https://haycafe.vn/wp-content/uploads/2021/11/Anh-avatar-dep-chat-lam-hinh-dai-dien.jpg");
         Customer customer3 = new Customer("Nguyen Thi Dieu My", "1/1/1999", "Quảng Trị", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvmbficGo6wY2b-tTzZCxWBqAO_NkeO3WGri1dMy9yaXbr0EZRKCTreW-1T1Ic09z_yU8&usqp=CAU");
@@ -25,6 +26,11 @@ public class CustomerServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+    }
+
+    @Override
+    public void init() throws ServletException {
+        System.out.println("init");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
