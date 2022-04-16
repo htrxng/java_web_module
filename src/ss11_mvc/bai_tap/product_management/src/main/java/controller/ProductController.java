@@ -4,6 +4,7 @@ import model.Product;
 import service.IProductService;
 import service.impl.ProductServiceImpl;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "ProductController", urlPatterns = {"/product","/"})
+@WebServlet(name = "ProductController", urlPatterns = {"/product", "/"})
 public class ProductController extends HttpServlet {
     //    Mô phỏng DI.
     private IProductService iProductService = new ProductServiceImpl();
@@ -25,41 +26,215 @@ public class ProductController extends HttpServlet {
         }
         switch (action) {
             case "create": {
-                createProduct(request,response);
+                createProduct(request, response);
+                break;
             }
+            case "update":
+                updateProduct(request, response);
+                break;
+            case "remove":
+                removeProduct(request, response);
+                break;
+            case "detail":
+                List<Product> productList = iProductService.getList();
+                request.setAttribute("products", productList);
+                request.getRequestDispatcher("list.jsp").forward(request, response);
+                break;
+        }
+    }
 
+    private void removeProduct(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        int index = -1;
+        for (int i = 0; i < iProductService.getList().size(); i++) {
+            if (iProductService.getList().get(i).getId() == id) {
+                index = i;
+                break;
+            }
+        }
+        Product product = this.iProductService.findByID(index);
+        RequestDispatcher requestDispatcher;
+        if (product == null) {
+            requestDispatcher = request.getRequestDispatcher("error-404.jsp");
+        } else {
+            this.iProductService.remove(index);
+            try {
+                response.sendRedirect("/product");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void updateProduct(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        Double price = Double.parseDouble(request.getParameter("price"));
+        String description = request.getParameter("description");
+        String manufacturer = request.getParameter("manufacturer");
+        // tìm đúng đích danh (index) của đối tượng trong arraylist vì
+        // id và index khác nhau nên ko thể tìm theo id
+        int index = -1;
+        for (int i = 0; i < iProductService.getList().size(); i++) {
+            if (iProductService.getList().get(i).getId() == id) {
+                index = i;
+                break;
+            }
+        }
+        Product product = this.iProductService.findByID(index);
+        RequestDispatcher dispatcher;
+        if (product == null) {
+            dispatcher = request.getRequestDispatcher("error-404.jsp");
+        } else {
+            product.setNameProduct(name);
+            product.setPrice(price);
+            product.setDescription(description);
+            product.setManufacturer(manufacturer);
+            String notice = this.iProductService.update(id, product);
+            request.setAttribute("product", product);
+            request.setAttribute("message", notice);
+            dispatcher = request.getRequestDispatcher("update.jsp");
+        }
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     private void createProduct(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String nameProduct = request.getParameter("name");
         Double price = Double.valueOf(request.getParameter("price"));
-        Integer amount = Integer.valueOf(request.getParameter("amount"));
-        Integer id = (int)(Math.random()*1000);
-        Product product =new Product(id,nameProduct,price,amount);
-        Map<String,String>map = iProductService.save(product);
-        if(map.isEmpty()) {
+        String description = request.getParameter("description");
+        String manufacturer = request.getParameter("manufacturer");
+        Integer id = (int) (Math.random() * 1000);
+        Product product = new Product(id, nameProduct, price, description, manufacturer);
+        Map<String, String> map = iProductService.save(product);
+        if (map.isEmpty()) {
             response.sendRedirect("/product");
-        } else{
+        } else {
             request.setAttribute("error", map);
-            request.getRequestDispatcher("create.jsp").forward(request,response);
+            request.getRequestDispatcher("create.jsp").forward(request, response);
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         System.out.println(action);
-        if(action == null) {
+        if (action == null) {
             action = "";
         }
         switch (action) {
             case "create":
-            request.getRequestDispatcher("create.jsp").forward(request,response);
+                request.getRequestDispatcher("create.jsp").forward(request, response);
+                break;
+            case "update":
+                showEditForm(request, response);
+                break;
+            case "remove":
+                showRemoveForm(request, response);
+                break;
+            case "detail":
+                showDetail(request, response);
+                break;
+            case "search": {
+                String name = request.getParameter("name");
+                List<Product> productListSearched = iProductService.search(name);
+                request.setAttribute("products", productListSearched);
+                request.getRequestDispatcher("list.jsp").forward(request, response);
+                break;
+            }
             default: {
                 List<Product> productList = iProductService.getList();
-                request.setAttribute("products",productList);
-                request.getRequestDispatcher("list.jsp").forward(request,response);
+                request.setAttribute("products", productList);
+                request.getRequestDispatcher("list.jsp").forward(request, response);
             }
+        }
+    }
+
+    private void showSearchForm(HttpServletRequest request, HttpServletResponse response) {
+
+    }
+
+    private void showDetail(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        int index = -1;
+        for (int i = 0; i < iProductService.getList().size(); i++) {
+            if (iProductService.getList().get(i).getId() == id) {
+                index = i;
+                break;
+            }
+        }
+        Product product = this.iProductService.findByID(index);
+        RequestDispatcher dispatcher;
+        if (product == null) {
+            dispatcher = request.getRequestDispatcher("error-404.jsp");
+        } else {
+            request.setAttribute("product", product);
+            dispatcher = request.getRequestDispatcher("detail.jsp");
+        }
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showRemoveForm(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        int index = -1;
+        for (int i = 0; i < iProductService.getList().size(); i++) {
+            if (iProductService.getList().get(i).getId() == id) {
+                index = i;
+                break;
+            }
+        }
+        Product product = this.iProductService.findByID(index);
+        RequestDispatcher dispatcher;
+        if (product == null) {
+            dispatcher = request.getRequestDispatcher("error-404.jsp");
+        } else {
+            request.setAttribute("product", product);
+            dispatcher = request.getRequestDispatcher("delete.jsp");
+        }
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showEditForm(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        // tìm đúng đích danh (index) của đối tượng trong arraylist vì
+        // id và index khác nhau nên ko thể tìm theo id
+        int index = -1;
+        for (int i = 0; i < iProductService.getList().size(); i++) {
+            if (iProductService.getList().get(i).getId() == id) {
+                index = i;
+                break;
+            }
+        }
+        Product product = this.iProductService.findByID(index);
+        RequestDispatcher dispatcher;
+        if (product == null) {
+            dispatcher = request.getRequestDispatcher("error-404.jsp");
+        } else {
+            request.setAttribute("product", product);
+            dispatcher = request.getRequestDispatcher("update.jsp");
+        }
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -14,18 +14,30 @@
 <body>
 <table>
     <button class="btn btn-primary" style="color: white"><a href="/product?action=create">Add</a></button>
+    <form method="get" action="/product">
+        <input type="hidden" name="action" value="search">
+        <label>Name product </label>
+        <input type="text" name="name">
+        <button type="submit">Search</button>
+    </form>
     <tr>
         <td>ID</td>
-        <td>Name of Product</td>
+        <td>Product's Name</td>
         <td>Price</td>
-        <td>Amount</td>
+        <td>Description</td>
+        <td>Manufacturer</td>
+        <td>Edit</td>
     </tr>
-    <c:forEach var="product" items="${products}" >
+    <c:forEach var="product" items="${products}">
         <tr>
             <td>${product.getId()}</td>
             <td>${product.getNameProduct()}</td>
             <td>${product.getPrice()}</td>
-            <td>${product.getAmount()}</td>
+            <td>${product.getDescription()}</td>
+            <td>${product.getManufacturer()}</td>
+            <td><a href="/product?action=update&id=${product.getId()}">Update</a></td>
+            <td><a href="/product?action=remove&id=${product.getId()}">Remove</a></td>
+            <td><a href="/product?action=detail&id=${product.getId()}">Detail</a></td>
         </tr>
     </c:forEach>
 </table>

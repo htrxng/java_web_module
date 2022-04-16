@@ -21,13 +21,45 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public Map<String, String> save(Product product) {
-        Map<String,String>map =new HashMap<>();
-
-        // xử lí validate
-
-    if(map.isEmpty()) {
-        iProductRepository.save(product);
-    }
+        Map<String, String> map = new HashMap<>();
+        if (product.getNameProduct().equals("")) {
+            map.put("name", "Tên không được để trống");
+        } else if (!product.getNameProduct().matches("^[a-zA-Z ]+$")) {
+            map.put("name", "Tên không hợp lệ");
+        }
+        if (map.isEmpty()) {
+            iProductRepository.save(product);
+        }
         return map;
+    }
+
+    @Override
+    public String update(int id, Product product) {
+        String notice = "";
+        if (product.getNameProduct().equals("")) {
+            notice = "Name of Product can not be empty!";
+        } else if (!product.getNameProduct().matches("^[a-zA-Z ]+$")) {
+            notice = "Product Name is invalid!";
+        }
+        if (notice.equals("")) {
+            iProductRepository.update(id, product);
+            notice = "Update successful!";
+        }
+        return notice;
+    }
+
+    @Override
+    public void remove(int id) {
+        iProductRepository.remove(id);
+    }
+
+    @Override
+    public Product findByID(int id) {
+        return iProductRepository.findByID(id);
+    }
+
+    @Override
+    public List<Product> search(String name) {
+        return iProductRepository.search(name);
     }
 }

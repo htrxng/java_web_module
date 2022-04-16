@@ -17,8 +17,10 @@
     <p style="color:red;">${error.get("name")}</p>
     <label>Price</label>
     <input type="number" name="price"> <br>
-    <label>Amount</label>
-    <input type="number" name="amount">
+    <label>Description</label>
+    <input type="text" name="description">
+    <label>Manufacturer</label>
+    <input type="text" name="manufacturer">
     <button type="submit">Add</button>
 </form>
 </body>
