@@ -15,4 +15,8 @@ public interface IUserSerivce {
 
 
     String updateUser(User user);
+
+    void remove(Integer id);
+
+    List<User> search(String country);
 }

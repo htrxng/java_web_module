@@ -17,6 +17,7 @@ public class UserRepository implements IUserRepository {
     private static final String SELECT_ALL_USERS = "select * from users";
     private static final String INSERT_USERS_SQL = "INSERT INTO users (name, email, country) VALUES (?, ?, ?);";
     private static final String UPDATE_USERS_SQL = "update users set name = ?,email= ?, country =? where id = ?;";
+    private static final String DELETE_USERS_SQL = "delete from users where id = ?;";
 
     @Override
     public List<User> getUserList() {
@@ -73,13 +74,15 @@ public class UserRepository implements IUserRepository {
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = this.baseRepository.getConnectionJavaToDataBase()
-                    .prepareStatement("select id,`name`,email,country from `user` where id = ?");
+                    .prepareStatement("select id,`name`,email,country from `users` where id = ?");
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            user.setId(resultSet.getInt("id"));
-            user.setName(resultSet.getString("name"));
-            user.setEmail(resultSet.getString("email"));
-            user.setCountry(resultSet.getString("country"));
+            while (resultSet.next()) {
+                user.setId(resultSet.getInt("id"));
+                user.setName(resultSet.getString("name"));
+                user.setEmail(resultSet.getString("email"));
+                user.setCountry(resultSet.getString("country"));
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -88,20 +91,17 @@ public class UserRepository implements IUserRepository {
         return user;
     }
 
-//    private static final String UPDATE_USERS_SQL = "update users set name = ?,email= ?, country =? where id = ?;";
+    //    private static final String UPDATE_USERS_SQL = "update users set name = ?,email= ?, country =? where id = ?;";
     @Override
     public void updateUser(User user) {
-        User userEdit = new User();
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = this.baseRepository.getConnectionJavaToDataBase()
                     .prepareStatement(UPDATE_USERS_SQL);
-//            ResultSet resultSet = preparedStatement.executeQuery();
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getCountry());
-            preparedStatement.setInt(1, user.getId());
-            System.out.println(preparedStatement);
+            preparedStatement.setInt(4, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -112,5 +112,56 @@ public class UserRepository implements IUserRepository {
                 throwables.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void remove(Integer id) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = this.baseRepository.getConnectionJavaToDataBase()
+                    .prepareStatement(DELETE_USERS_SQL);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+
+    private static final String SELECT_ALL_USERS_BY_COUNTRY_NAME = "select id, `name`, email, country from `users` where `country` like ?";
+
+    @Override
+    public List<User> search(String country) {
+        List<User> userList = new ArrayList<>();
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = this.baseRepository.getConnectionJavaToDataBase()
+                    .prepareStatement(SELECT_ALL_USERS_BY_COUNTRY_NAME);
+            preparedStatement.setString(1, "%" + country + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            User user;
+            while (resultSet.next()) {
+                user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setName(resultSet.getString("name"));
+                user.setEmail(resultSet.getString("email"));
+                user.setCountry(resultSet.getString("country"));
+                userList.add(user);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return userList;
     }
 }

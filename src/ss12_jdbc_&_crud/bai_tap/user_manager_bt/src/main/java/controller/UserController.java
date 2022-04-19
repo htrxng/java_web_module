@@ -42,6 +42,55 @@ public class UserController extends HttpServlet {
         }
     }
 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        System.out.println(action);
+        if (action == null) {
+            action = "";
+        }
+        switch (action) {
+            case "create":
+                request.getRequestDispatcher("create.jsp").forward(request, response);
+                break;
+            case "edit":
+                try {
+                    showEditForm(request, response);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                break;
+            case "remove":
+                removeUser(request, response);
+                break;
+            case "search":
+                String countryName = request.getParameter("country");
+                List<User> userListSearched = userSerivce.search(countryName);
+                request.setAttribute("users", userListSearched);
+                request.getRequestDispatcher("list.jsp").forward(request, response);
+                break;
+            default:
+                List<User> userList = userSerivce.getUserList();
+                request.setAttribute("users", userList);
+                request.getRequestDispatcher("list.jsp").forward(request, response);
+                break;
+        }
+    }
+
+    private void removeUser(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            Integer id = Integer.parseInt(request.getParameter("id"));
+            User user = this.userSerivce.findByID(id);
+            RequestDispatcher requestDispatcher;
+            if (user == null) {
+                requestDispatcher = request.getRequestDispatcher("error-404.jsp");
+            } else {
+                this.userSerivce.remove(id);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     private void updateUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         Integer id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
@@ -55,7 +104,7 @@ public class UserController extends HttpServlet {
             user.setName(name);
             user.setEmail(email);
             user.setCountry(country);
-            String notice=  userSerivce.updateUser(user);
+            String notice = userSerivce.updateUser(user);
             RequestDispatcher dispatcher = request.getRequestDispatcher("edit.jsp");
             dispatcher.forward(request, response);
         }
@@ -82,31 +131,6 @@ public class UserController extends HttpServlet {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action");
-        System.out.println(action);
-        if (action == null) {
-            action = "";
-        }
-        switch (action) {
-            case "create":
-                request.getRequestDispatcher("create.jsp").forward(request, response);
-                break;
-            case "edit":
-                try {
-                    showEditForm(request, response);
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-                break;
-            default:
-                List<User> userList = userSerivce.getUserList();
-                request.setAttribute("users", userList);
-                request.getRequestDispatcher("list.jsp").forward(request, response);
-                break;
         }
     }
 

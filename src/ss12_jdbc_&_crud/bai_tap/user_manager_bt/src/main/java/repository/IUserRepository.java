@@ -15,4 +15,8 @@ public interface IUserRepository {
     User findById(Integer id) throws SQLException;
 
     void updateUser(User user);
+
+    void remove(Integer id);
+
+    List<User> search(String country);
 }

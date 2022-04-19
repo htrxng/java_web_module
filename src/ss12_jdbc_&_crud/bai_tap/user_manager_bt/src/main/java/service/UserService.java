@@ -50,5 +50,13 @@ public class UserService implements IUserSerivce {
         return notice;
     }
 
+    @Override
+    public void remove(Integer id) {
+        iUserRepository.remove(id);
+    }
 
+    @Override
+    public List<User> search(String country) {
+        return iUserRepository.search(country);
+    }
 }
