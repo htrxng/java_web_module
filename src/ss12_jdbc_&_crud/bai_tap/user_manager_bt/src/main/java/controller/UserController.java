@@ -61,6 +61,9 @@ public class UserController extends HttpServlet {
                 break;
             case "remove":
                 removeUser(request, response);
+                List<User> userList = userSerivce.getUserList();
+                request.setAttribute("users", userList);
+                request.getRequestDispatcher("list.jsp").forward(request, response);
                 break;
             case "search":
                 String countryName = request.getParameter("country");
@@ -69,7 +72,7 @@ public class UserController extends HttpServlet {
                 request.getRequestDispatcher("list.jsp").forward(request, response);
                 break;
             default:
-                List<User> userList = userSerivce.getUserList();
+                 userList = userSerivce.getUserList();
                 request.setAttribute("users", userList);
                 request.getRequestDispatcher("list.jsp").forward(request, response);
                 break;

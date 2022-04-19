@@ -21,4 +21,6 @@ public interface IUserRepository {
     List<User> search(String country);
 
     List<User> getListUseSP();
+
+    void deleteUseSP(Integer id);
 }

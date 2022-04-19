@@ -15,6 +15,7 @@ public class UserRepository implements IUserRepository {
     private static final String INSERT_USERS_SQL = "INSERT INTO users (name, email, country) VALUES (?, ?, ?);";
     private static final String UPDATE_USERS_SQL = "update users set name = ?,email= ?, country =? where id = ?;";
     private static final String DELETE_USERS_SQL = "delete from users where id = ?;";
+    private static final String SELECT_ALL_USERS_BY_COUNTRY_NAME = "select id, `name`, email, country from `users` where `country` like ?";
 
     @Override
     public List<User> getUserList() {
@@ -130,7 +131,6 @@ public class UserRepository implements IUserRepository {
         }
     }
 
-    private static final String SELECT_ALL_USERS_BY_COUNTRY_NAME = "select id, `name`, email, country from `users` where `country` like ?";
 
     @Override
     public List<User> search(String country) {
@@ -192,5 +192,25 @@ public class UserRepository implements IUserRepository {
             }
         }
         return users;
+    }
+
+    @Override
+    public void deleteUseSP(Integer id) {
+        String query = "{CALL delete_user(?)}";
+        CallableStatement callableStatement = null;
+        try {
+            callableStatement = this.baseRepository.getConnectionJavaToDataBase().prepareCall(query);
+            callableStatement.setInt(1, id);
+            callableStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                assert callableStatement != null;
+                callableStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

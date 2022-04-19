@@ -52,7 +52,7 @@ public class UserService implements IUserSerivce {
 
     @Override
     public void remove(Integer id) {
-        iUserRepository.remove(id);
+        iUserRepository.deleteUseSP(id);
     }
 
     @Override
