@@ -48,7 +48,6 @@ public class StudentRepository implements IStudentRepository {
                 student.setNameClass(resultSet.getString("name_class"));
                 studentList.add(student);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -85,7 +84,6 @@ public class StudentRepository implements IStudentRepository {
                 e.printStackTrace();
             }
         }
-
     }
 
     @Override
@@ -111,7 +109,6 @@ public class StudentRepository implements IStudentRepository {
                 student.setGender(resultSet.getInt("gender"));
                 studentList.add(student);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

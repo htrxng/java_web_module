@@ -55,8 +55,8 @@ public class UserServlet extends HttpServlet {
                     showNewForm(request, response);
                     break;
                 case "edit":
-                    showEditForm(request, response);
-                    break;
+                        showEditForm(request, response);
+                        break;
                 case "delete":
                     deleteUser(request, response);
                     break;

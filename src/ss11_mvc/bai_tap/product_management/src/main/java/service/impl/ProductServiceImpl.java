@@ -50,12 +50,26 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public void remove(int id) {
-        iProductRepository.remove(id);
+        int index = -1;
+        for (int i = 0; i < this.getList().size(); i++) {
+            if (this.getList().get(i).getId() == id) {
+                index = i;
+                break;
+            }
+        }
+        iProductRepository.remove(index);
     }
 
     @Override
     public Product findByID(int id) {
-        return iProductRepository.findByID(id);
+        int index = -1;
+        for (int i = 0; i < this.getList().size(); i++) {
+            if (this.getList().get(i).getId() == id) {
+                index = i;
+                break;
+            }
+        }
+        return iProductRepository.findByID(index);
     }
 
     @Override
