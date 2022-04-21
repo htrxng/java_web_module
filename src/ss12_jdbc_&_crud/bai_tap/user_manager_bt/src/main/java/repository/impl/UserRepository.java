@@ -68,7 +68,7 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public User findById(Integer id) throws SQLException {
-        User user = new User();
+            User user = new User();
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = this.baseRepository.getConnectionJavaToDataBase()

@@ -28,6 +28,7 @@
         }
 
         #content {
+            padding-top: 40px;
             background-color: lightseagreen;
         }
 
@@ -58,7 +59,7 @@
                     <div class="navbar-nav">
                         <a class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
                         <a class="nav-link" href="#">Employee</a>
-                        <a class="nav-link" href="#">Customer</a>
+                        <a class="nav-link" href="/customers">Customer</a>
                         <a class="nav-link disabled">Service</a>
                         <a class="nav-link disabled">Contract</a>
                     </div>
