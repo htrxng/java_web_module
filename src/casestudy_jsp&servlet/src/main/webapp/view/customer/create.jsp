@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Admin
@@ -17,25 +18,12 @@
             <caption>
                 <h2>Add New Customer</h2>
             </caption>
-<%--            private String customerId;
-    private int customerTypeId;
-    private String customerName;
-    private Date customerBirthday;
-    private boolean customerGender;
-    private String customerIdCard;
-    private String customerPhone;
-    private String customerEmail;
-    private String customerAddress;--%>
             <tr>
-                <th>customerTypeId:</th>
+                <th>customerType:</th>
                 <td>
-                    <select name="customerType">
-                        <option value="1">Diamond</option>
-                        <option value="2">Platinium</option>
-                        <option value="3">Gold</option>
-                        <option value="4">Silver</option>
-                        <option value="5">Member</option>
-                    </select>
+                    <select name="customerTypeId"><c:forEach var="customerType" items="${typeCustomers}">
+                        <option value="${customerType.customerTypeId}"> ${customerType.customerTypeName} </option>
+                    </c:forEach></select>
                 </td>
             </tr>
             <tr>
@@ -56,7 +44,7 @@
                     <select name="gender">
                         <option value="1">Male</option>
                         <option value="0">Female</option>
-<%--                        <option value="-1">Others</option>--%>
+                        <%--                        <option value="-1">Others</option>--%>
                     </select>
                 </td>
             </tr>
@@ -86,7 +74,10 @@
             </tr>
             <tr>
                 <td colspan="2" align="center">
-                    <input type="submit" value="save"/>
+                    <input type="submit" value="Save"/>
+                    <button>
+                        <a href="customers?action=customers">Back</a>
+                    </button>
                 </td>
             </tr>
         </table>

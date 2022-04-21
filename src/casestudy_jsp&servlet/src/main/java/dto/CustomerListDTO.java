@@ -3,7 +3,7 @@ package dto;
 import java.util.Date;
 
 public class CustomerListDTO {
-    private int customerId;
+    private Integer customerId;
     private String customerType;
     private String customerName;
     private Date customerBirthday;
@@ -16,7 +16,7 @@ public class CustomerListDTO {
     public CustomerListDTO() {
     }
 
-    public CustomerListDTO(int customerId, String customerType, String customerName, Date customerBirthday, boolean customerGender, String customerIdCard, String customerPhone, String customerEmail, String customerAddress) {
+    public CustomerListDTO(Integer customerId, String customerType, String customerName, Date customerBirthday, boolean customerGender, String customerIdCard, String customerPhone, String customerEmail, String customerAddress) {
         this.customerId = customerId;
         this.customerType = customerType;
         this.customerName = customerName;
@@ -28,11 +28,11 @@ public class CustomerListDTO {
         this.customerAddress = customerAddress;
     }
 
-    public int getCustomerId() {
+    public Integer getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(int customerId) {
+    public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
     }
 

@@ -3,6 +3,10 @@ package repository;
 import dto.CustomerListDTO;
 import model.Customer;
 
-public interface ICustomerRepository extends ICrudRepository<CustomerListDTO> {
+import java.util.Map;
+
+public interface ICustomerRepository extends ICrudRepository<Customer> {
     Customer findById(Integer id);
+
+    void updateUser(Customer customer);
 }

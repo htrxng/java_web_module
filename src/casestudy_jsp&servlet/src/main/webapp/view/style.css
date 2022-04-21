@@ -1,0 +1,21 @@
+#header {
+    background-color: teal;
+    /*position: fixed;*/
+}
+
+#nav-bar {
+    background-color: cornflowerblue;
+    /*position: absolute;*/
+}
+
+#content {
+    float: left;
+}
+
+#footer {
+    background-color: brown;
+    text-align: center;
+}
+.nav-link active {
+    background-color: #5a6268;
+}

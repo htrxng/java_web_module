@@ -17,7 +17,7 @@ public class CustomerService implements ICustomerService {
         Map<String, String>map = new HashMap<>();
         if(customer.getCustomerName().equals("")) {
             map.put("name","Name is not be empty!");
-        } else if(!customer.getCustomerName().matches("^[a-zA-Z ]+$")) {
+        } else if(!customer.getCustomerName().matches("^((\\p{Lu}(\\p{Ll})+)(\\s)?)+$")) {
             map.put("name","Name is not invalid!");
         }
         if(map.isEmpty()) {
@@ -26,15 +26,30 @@ public class CustomerService implements ICustomerService {
         return map;
     }
 
+    @Override
+    public String updateUser(Customer customer) {
+        String notice = "";
+        if (customer.getCustomerName().equals("")) {
+            notice = "Customer can not be empty!";
+        } else if (!customer.getCustomerName().matches("^((\\p{Lu}(\\p{Ll})+)(\\s)?)+$")) {
+            notice = "User Name is invalid!";
+        }
+        if (notice.equals("")) {
+            iCustomerRepository.updateUser( customer);
+            notice = "Update successful!";
+        }
+        return notice;
+    }
+
 
     @Override
-    public List<CustomerListDTO> getList() {
+    public List<Customer> getList() {
         return iCustomerRepository.getList();
     }
 
     @Override
-    public List<CustomerListDTO> search(String keyWord) {
-            return iCustomerRepository.search(keyWord);
+    public List<Customer> search(String customerTypeId,String keyWordName , String keyWordEmail) {
+            return iCustomerRepository.search(customerTypeId,keyWordName,keyWordEmail);
     }
 
     @Override

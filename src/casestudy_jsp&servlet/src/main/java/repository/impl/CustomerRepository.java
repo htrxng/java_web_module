@@ -2,6 +2,7 @@ package repository.impl;
 
 import dto.CustomerListDTO;
 import model.Customer;
+import model.CustomerType;
 import repository.BaseRepository;
 import repository.ICustomerRepository;
 
@@ -10,31 +11,31 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CustomerRepository implements ICustomerRepository {
     private BaseRepository baseRepository = new BaseRepository();
 
-    private static final String SELECT_ALL_CUSTOMERS = "select customer_id,customer_type_name,customer_name, customer_birthday,customer_gender,customer_id_card,customer_phone,customer_email,customer_address from customer inner  join customer_type on customer_type.customer_type_id = customer.customer_type_id;";
-    private static final String SELECT_ALL_CUSTOMERS_BY_KEYWORD = "select customer_id,customer_type_name,customer_name, customer_birthday,customer_gender,customer_id_card,customer_phone,customer_email,customer_address " +
-            "from customer inner  join customer_type on customer_type.customer_type_id = customer.customer_type_id  " +
-            "where customer_name like ?;";
+    private static final String SELECT_ALL_CUSTOMERS = "select customer_id,customer_type_id,customer_name, customer_birthday,customer_gender,customer_id_card,customer_phone,customer_email,customer_address from customer;";
+    private static final String UPDATE_CUSTOMER = "update customer set customer_type_id = ?, customer_name = ?,customer_birthday= ?, customer_gender =? ,customer_id_card = ?,customer_phone = ?,customer_email =?, customer_address = ? where customer_id = ?;";
 
 
     @Override
-    public List<CustomerListDTO> getList() {
-        List<CustomerListDTO> customerList = new ArrayList<>();
+    public List<Customer> getList() {
+        List<Customer> customerList = new ArrayList<>();
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = this.baseRepository.getConnectionJavaToDataBase().prepareStatement(SELECT_ALL_CUSTOMERS);
             ResultSet resultSet = preparedStatement.executeQuery();
-            CustomerListDTO customer;
+            Customer customer;
             while (resultSet.next()) {
-                customer = new CustomerListDTO();
+                customer = new Customer();
                 customer.setCustomerId(resultSet.getInt("customer_id"));
-                customer.setCustomerType(resultSet.getString("customer_type_name"));
+                customer.setCustomerTypeId(resultSet.getInt("customer_type_id"));
                 customer.setCustomerName(resultSet.getString("customer_name"));
-                customer.setCustomerBirthday(resultSet.getDate("customer_birthday"));
+                customer.setCustomerBirthday(String.valueOf(resultSet.getDate("customer_birthday")));
                 customer.setCustomerGender(resultSet.getBoolean("customer_gender"));
                 customer.setCustomerIdCard(resultSet.getString("customer_id_card"));
                 customer.setCustomerPhone(resultSet.getString("customer_phone"));
@@ -51,10 +52,8 @@ public class CustomerRepository implements ICustomerRepository {
                 e.printStackTrace();
             }
         }
-        System.out.println("ok");
         return customerList;
     }
-
 
     @Override
     public void save(Customer customer) {
@@ -64,7 +63,7 @@ public class CustomerRepository implements ICustomerRepository {
                     .prepareStatement("insert into customer( `customer_type_id`, `customer_name`, `customer_birthday`, `customer_gender`, `customer_id_card`, `customer_phone`, `customer_email`, `customer_address`) value (?,?,?,?,?,?,?,?);");
             preparedStatement.setInt(1, customer.getCustomerTypeId());
             preparedStatement.setString(2, customer.getCustomerName());
-            preparedStatement.setString(3,  customer.getCustomerBirthday());
+            preparedStatement.setString(3, customer.getCustomerBirthday());
             if (customer.isCustomerGender()) {
                 preparedStatement.setInt(4, 1);
             } else {
@@ -85,37 +84,41 @@ public class CustomerRepository implements ICustomerRepository {
             }
         }
     }
-
-
+    private static final String SELECT_ALL_CUSTOMERS_BY_KEYWORD = "select customer_id,customer_type_id,customer_name, customer_birthday,customer_gender,customer_id_card,customer_phone,customer_email,customer_address from customer " +
+            "where (customer_name like ? and customer_type_id like ? and customer_email like ?);";
     @Override
-    public List<CustomerListDTO> search(String keyWord) {
-        List<CustomerListDTO> customerList = new ArrayList<>();
+    public List<Customer> search(String customerTypeId,String keyWordName , String keyWordEmail) {
+        List<Customer> customerList = new ArrayList<>();
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = this.baseRepository.getConnectionJavaToDataBase()
                     .prepareStatement(SELECT_ALL_CUSTOMERS_BY_KEYWORD);
-            preparedStatement.setString(1, "%" + keyWord + "%");
+            preparedStatement.setString(1, "%" + keyWordName + "%");
+            preparedStatement.setString(2,"%" +customerTypeId + "%");
+            preparedStatement.setString(3, "%" + keyWordEmail + "%");
             ResultSet resultSet = preparedStatement.executeQuery();
-            CustomerListDTO customerListDTO;
+            Customer customer;
             while (resultSet.next()) {
-                customerListDTO = new CustomerListDTO();
-                customerListDTO.setCustomerId(resultSet.getInt("customer_id"));
-                customerListDTO.setCustomerType(resultSet.getString("customer_type_name"));
-                customerListDTO.setCustomerName(resultSet.getString("customer_name"));
-                customerListDTO.setCustomerBirthday(resultSet.getDate("customer_birthday"));
-                customerListDTO.setCustomerGender(resultSet.getBoolean("customer_gender"));
-                customerListDTO.setCustomerIdCard(resultSet.getString("customer_id_card"));
-                customerListDTO.setCustomerPhone(resultSet.getString("customer_phone"));
-                customerListDTO.setCustomerEmail(resultSet.getString("customer_email"));
-                customerListDTO.setCustomerAddress(resultSet.getString("customer_address"));
-                customerList.add(customerListDTO);
+                customer = new Customer();
+                customer.setCustomerId(resultSet.getInt("customer_id"));
+                customer.setCustomerTypeId(resultSet.getInt("customer_type_id"));
+                customer.setCustomerName(resultSet.getString("customer_name"));
+                customer.setCustomerBirthday(String.valueOf(resultSet.getDate("customer_birthday")));
+                customer.setCustomerGender(resultSet.getBoolean("customer_gender"));
+                customer.setCustomerIdCard(resultSet.getString("customer_id_card"));
+                customer.setCustomerPhone(resultSet.getString("customer_phone"));
+                customer.setCustomerEmail(resultSet.getString("customer_email"));
+                customer.setCustomerAddress(resultSet.getString("customer_address"));
+                customerList.add(customer);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return customerList;
     }
-    private static final String DELETE_CUSTOMER_SQL = "delete from customer where id = ?;";
+
+    private static final String DELETE_CUSTOMER_SQL = "delete from customer where customer_id = ?;";
+
     @Override
     public void remove(Integer id) {
         PreparedStatement preparedStatement = null;
@@ -166,4 +169,36 @@ public class CustomerRepository implements ICustomerRepository {
         }
         return customer;
     }
+
+
+    @Override
+    public void updateUser(Customer customer) {
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = this.baseRepository.getConnectionJavaToDataBase()
+                    .prepareStatement(UPDATE_CUSTOMER);
+            preparedStatement.setInt(1, customer.getCustomerTypeId());
+            preparedStatement.setString(2, customer.getCustomerName());
+            preparedStatement.setString(3, customer.getCustomerBirthday());
+            preparedStatement.setBoolean(4, customer.isCustomerGender());
+            preparedStatement.setString(5, customer.getCustomerIdCard());
+            preparedStatement.setString(6, customer.getCustomerPhone());
+            preparedStatement.setString(7, customer.getCustomerEmail());
+            preparedStatement.setString(8, customer.getCustomerAddress());
+            preparedStatement.setInt(9, customer.getCustomerId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+
+
+
 }

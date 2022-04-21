@@ -44,7 +44,7 @@
 
 </head>
 <body>
-<div class="container p-0">
+<div class="container-fluid p-0">
     <div id="head">
         <div class="row" id="header">
             <div class="col-6 col-md-4"><img

@@ -27,6 +27,9 @@
 </center>
 <div align="center">
     <table border="1" cellpadding="5">
+        <h2>
+            <a href="users?action=users"></a>
+        </h2>
         <tr>
             <th>ID</th>
             <th>Name</th>
