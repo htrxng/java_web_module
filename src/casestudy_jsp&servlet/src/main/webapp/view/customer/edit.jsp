@@ -66,8 +66,8 @@
                 <th>Gender:</th>
                 <td>
                     <select name="gender">
-                        <option value="1">Male</option>
-                        <option value="0">Female</option>
+                        <option value="1">FeMale</option>
+                        <option value="0">Male</option>
                     </select>
                 </td>
             </tr>
@@ -77,6 +77,7 @@
                     <input type="text" name="idCard" size="45"
                            value="<c:out value="${customer.customerIdCard}" />"
                     />
+                    <p style="color: red">${error.idCard}</p>
                 </td>
             </tr>
             <tr>
@@ -85,6 +86,7 @@
                     <input type="text" name="phone" size="15"
                            value="<c:out value='${customer.customerPhone}' />"
                     />
+                    <p style="color: red">${error.phone}</p>
                 </td>
             </tr>
             <tr>

@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DivisionRepository implements IDivisionRepository {
+public class DivisionRepositoryImpl implements IDivisionRepository {
     BaseRepository baseRepository = new BaseRepository();
     private static final String SELECT_ALL_DIVISION = "select division_id, division_name from division;";
 
@@ -18,7 +18,6 @@ public class DivisionRepository implements IDivisionRepository {
     public List<Division> getList() {
         PreparedStatement preparedStatement = null;
         List<Division> divisionList = new ArrayList<>();
-
         try {
             preparedStatement = this.baseRepository.getConnectionJavaToDataBase()
                     .prepareStatement(SELECT_ALL_DIVISION);

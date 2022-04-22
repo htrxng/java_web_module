@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PositionRepository implements IPositionRepository {
+public class PositionRepositoryImpl implements IPositionRepository {
     private BaseRepository baseRepository = new BaseRepository();
  private static final String SELECT_ALL_POSITION = "select position_id, position_name from position;";
 

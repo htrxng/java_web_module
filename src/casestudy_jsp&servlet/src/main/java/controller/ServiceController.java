@@ -1,7 +1,7 @@
 package controller;
 
 import service.ICustomerTypeService;
-import service.impl.CustomerTypeService;
+import service.impl.CustomerTypeServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @WebServlet(name = "ServiceController", urlPatterns = "/services")
 public class ServiceController extends HttpServlet {
-    ICustomerTypeService customerTypeService = new CustomerTypeService();
+    ICustomerTypeService customerTypeService = new CustomerTypeServiceImpl();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

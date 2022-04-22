@@ -11,9 +11,11 @@ public class Employee {
     private String employeeAddress;
     private int positionId;
     private int educationDegreeId;
+    private int divisionId;
     private String username;
 
-    public Employee(int employeeId, String employeeName, String employeeBirthday, String employeeIdCard, Double salary, String employeePhone, String employeeEmail, String employeeAddress, int positionId, int educationDegreeId, String username) {
+
+    public Employee(int employeeId, String employeeName, String employeeBirthday, String employeeIdCard, Double salary, String employeePhone, String employeeEmail, String employeeAddress, int positionId, int educationDegreeId, int divisionId, String username) {
         this.employeeId = employeeId;
         this.employeeName = employeeName;
         this.employeeBirthday = employeeBirthday;
@@ -24,10 +26,24 @@ public class Employee {
         this.employeeAddress = employeeAddress;
         this.positionId = positionId;
         this.educationDegreeId = educationDegreeId;
+        this.divisionId = divisionId;
         this.username = username;
     }
 
     public Employee() {
+    }
+
+    public Employee(String employeeName, String employeeBirthday, String employeeIdCard, Double salary, String employeePhone, String employeeEmail, String employeeAddress, int positionId, int educationDegreeId, int divisionId) {
+        this.employeeName = employeeName;
+        this.employeeBirthday = employeeBirthday;
+        this.employeeIdCard = employeeIdCard;
+        this.salary = salary;
+        this.employeePhone = employeePhone;
+        this.employeeEmail = employeeEmail;
+        this.employeeAddress = employeeAddress;
+        this.positionId = positionId;
+        this.educationDegreeId = educationDegreeId;
+        this.divisionId = divisionId;
     }
 
     public int getEmployeeId() {
@@ -109,6 +125,14 @@ public class Employee {
     public void setEducationDegreeId(int educationDegreeId) {
         this.educationDegreeId = educationDegreeId;
     }
+    public int getDivisionId() {
+        return divisionId;
+    }
+
+    public void setDivisionId(int divisionId) {
+        this.divisionId = divisionId;
+    }
+
 
     public String getUsername() {
         return username;

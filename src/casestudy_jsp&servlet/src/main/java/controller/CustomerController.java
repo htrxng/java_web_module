@@ -1,12 +1,11 @@
 package controller;
 
-import dto.CustomerListDTO;
 import model.Customer;
 import model.CustomerType;
 import service.ICustomerService;
 import service.ICustomerTypeService;
-import service.impl.CustomerService;
-import service.impl.CustomerTypeService;
+import service.impl.CustomerServiceImpl;
+import service.impl.CustomerTypeServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,28 +14,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 @WebServlet(name = "CustomerController", urlPatterns = "/customers")
 public class CustomerController extends HttpServlet {
-    ICustomerService customerService = new CustomerService();
-    ICustomerTypeService customerTypeService = new CustomerTypeService();
+    ICustomerService customerService = new CustomerServiceImpl();
+    ICustomerTypeService customerTypeService = new CustomerTypeServiceImpl();
     static boolean checkGender;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html; charset=UTF-8");
-        response.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
         if (action == null) {
             action = "";
         }
         switch (action) {
             case "create":
-                insertUser(request, response);
+                insertCustomer(request, response);
                 break;
             case "edit":
                 updateCustomer(request, response);
@@ -62,7 +57,7 @@ public class CustomerController extends HttpServlet {
         Customer customer = customerService.findByID(id);
         RequestDispatcher requestDispatcher;
         if (customer == null) {
-            requestDispatcher = request.getRequestDispatcher("error-404.jsp");
+            requestDispatcher = request.getRequestDispatcher("/view/customer/edit.jsp");
         } else {
             customer.setCustomerId(id);
             customer.setCustomerTypeId(customerTypeId);
@@ -73,14 +68,24 @@ public class CustomerController extends HttpServlet {
             customer.setCustomerPhone(phone);
             customer.setCustomerEmail(email);
             customer.setCustomerAddress(address);
-            String notice = customerService.updateUser(customer);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/view/customer/edit.jsp");
-            dispatcher.forward(request, response);
+            Map<String,String> map = customerService.updateUser(customer);
+            if (map.isEmpty()) {
+                try {
+                    response.sendRedirect("/customers");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                List<CustomerType> typeCustomerList = customerTypeService.getList();
+                request.setAttribute("typeCustomers", typeCustomerList);
+                request.setAttribute("customer", customer);
+                request.setAttribute("error", map);
+                request.getRequestDispatcher("/view/customer/edit.jsp").forward(request, response);
+            }
         }
-
     }
 
-    private void insertUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void insertCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer customerId = null;
         int customerTypeId = Integer.parseInt(request.getParameter("customerTypeId"));
         String customerName = request.getParameter("name");
@@ -110,6 +115,7 @@ public class CustomerController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8"); //viet tieng viet
         String action = request.getParameter("action");
         if (action == null) {
             action = "";
@@ -124,7 +130,7 @@ public class CustomerController extends HttpServlet {
                 String customerTypeId = request.getParameter("customerTypeId");
                 String keyWordName = request.getParameter("keyWordName");
                 String keyWordEmail = request.getParameter("keyWordEmail");
-                List<Customer> customerListSearch = customerService.search(customerTypeId,keyWordName,keyWordEmail);
+                List<Customer> customerListSearch = customerService.search(customerTypeId, keyWordName, keyWordEmail);
                 typeCustomerList = customerTypeService.getList();
                 request.setAttribute("customers", customerListSearch);
                 request.setAttribute("typeCustomers", typeCustomerList);
@@ -132,15 +138,17 @@ public class CustomerController extends HttpServlet {
                 break;
             case "remove":
                 removeCustomer(request, response);
-                List<Customer> customerListt = customerService.getList();
-                request.setAttribute("customers", customerListt);
+                List<Customer> customerList = customerService.getList();
+                typeCustomerList = customerTypeService.getList();
+                request.setAttribute("customers", customerList);
+                request.setAttribute("typeCustomers", typeCustomerList);
                 request.getRequestDispatcher("/view/customer/list.jsp").forward(request, response);
                 break;
             case "edit":
                 showEditForm(request, response);
                 break;
             default:
-                List<Customer> customerList = customerService.getList();
+                customerList = customerService.getList();
                 typeCustomerList = customerTypeService.getList();
                 request.setAttribute("customers", customerList);
                 request.setAttribute("typeCustomers", typeCustomerList);

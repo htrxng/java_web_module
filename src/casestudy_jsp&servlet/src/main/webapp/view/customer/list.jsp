@@ -50,7 +50,7 @@
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
                         <a class="nav-link" href="index.jsp">Home</a>
-                        <a class="nav-link" href="#">Employee</a>
+                        <a class="nav-link" href="/employees">Employee</a>
                         <a class="nav-link active" href="/customers">Customer <span class="sr-only">(current)</span></a>
                         <a class="nav-link disabled">Service</a>
                         <a class="nav-link disabled">Contract</a>
@@ -65,7 +65,7 @@
     </div>
     <div class="row" style="margin-left: 2%">
 
-        <div id="table">
+        <div id="customer-table">
            <h1 style="text-align: center">Customer List</h1>
             <button>
                 <a href="customers?action=customers">Customer Home</a>

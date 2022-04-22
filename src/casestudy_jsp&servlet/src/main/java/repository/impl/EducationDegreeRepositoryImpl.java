@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EducationDegreeRepository implements IEducationDegreeRepository {
+public class EducationDegreeRepositoryImpl implements IEducationDegreeRepository {
     BaseRepository baseRepository =  new BaseRepository();
     private static final String SELECT_ALL_EDUCATION_DEGREE = "select education_degree_id, education_degree_name from education_degree;";
 

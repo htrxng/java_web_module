@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceTypeRepository implements IServiceTypeRepository {
+public class ServiceTypeRepositoryImpl implements IServiceTypeRepository {
     private BaseRepository baseRepository = new BaseRepository();
     private static final String SELECT_ALL_SERVICE_TYPE = "select service_type_id, service_type_name from service_type;";
 

@@ -52,12 +52,15 @@
                 <th>customerIdCard:</th>
                 <td>
                     <input type="text" name="idCard" id="idCard" size="20"/>
+                    <p style="color: red">${error.idCard}</p>
+
                 </td>
             </tr>
             <tr>
                 <th>customerPhone:</th>
                 <td>
                     <input type="text" name="phone" id="phone" size="20"/>
+                    <p style="color: red">${error.phone}</p>
                 </td>
             </tr>
             <tr>

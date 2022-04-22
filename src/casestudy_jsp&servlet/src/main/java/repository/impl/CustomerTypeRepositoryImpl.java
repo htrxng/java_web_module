@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerTypeRepository implements ICustomerTypeRepository {
+public class CustomerTypeRepositoryImpl implements ICustomerTypeRepository {
     private BaseRepository baseRepository = new BaseRepository();
 
     private static final String SELECT_ALL_CUSTOMER_TYPE = "select customer_type_id,customer_type_name from customer_type;";

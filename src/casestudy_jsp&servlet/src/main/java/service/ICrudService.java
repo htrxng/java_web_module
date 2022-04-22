@@ -1,7 +1,6 @@
 package service;
 
-import dto.CustomerListDTO;
-import model.Customer;
+
 
 import java.util.List;
 import java.util.Map;
@@ -9,9 +8,10 @@ import java.util.Map;
 public interface ICrudService<E> {
     List<E> getList();
 
+    Map<String, String> updateUser(E e);
 
-    List<E> search(String customerTypeId,String keyWordName , String keyWordEmail);
 
     void remove(Integer id);
 
+    Map<String, String> save(E e);
 }

@@ -9,10 +9,9 @@ import java.util.Map;
 public interface ICrudRepository<E> {
     List<E> getList();
 
-    void save(Customer customer);
+    void save(E e);
 
-    List<E> search(String customerTypeId,String keyWordName , String keyWordEmail);
+    void updateUser(E e);
 
     void remove(Integer id);
-
 }

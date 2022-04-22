@@ -2,13 +2,13 @@ package service.impl;
 
 import model.ServiceType;
 import repository.IServiceTypeRepository;
-import repository.impl.ServiceTypeRepository;
+import repository.impl.ServiceTypeRepositoryImpl;
 import service.IServiceTypeService;
 
 import java.util.List;
 
-public class ServiceTypeService implements IServiceTypeService {
-    IServiceTypeRepository iServiceTypeRepository = new ServiceTypeRepository();
+public class ServiceTypeServiceImpl implements IServiceTypeService {
+    IServiceTypeRepository iServiceTypeRepository = new ServiceTypeRepositoryImpl();
 
     @Override
     public List<ServiceType> getList() {

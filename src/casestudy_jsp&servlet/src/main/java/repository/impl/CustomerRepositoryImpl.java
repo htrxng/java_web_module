@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CustomerRepository implements ICustomerRepository {
+public class CustomerRepositoryImpl implements ICustomerRepository {
     private BaseRepository baseRepository = new BaseRepository();
 
     private static final String SELECT_ALL_CUSTOMERS = "select customer_id,customer_type_id,customer_name, customer_birthday,customer_gender,customer_id_card,customer_phone,customer_email,customer_address from customer;";
