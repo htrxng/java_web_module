@@ -39,7 +39,9 @@
             </tr>
             <tr>
                 <th>Salary</th>
-                <td><input type="text" name="salary" id="salary" size="20"></td>
+                <td><input type="text" name="salary" id="salary" size="20">
+                    <p style="color: red">${error.salary}</p>
+                </td>
             </tr>
             <tr>
                 <th>Phone</th>

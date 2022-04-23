@@ -38,6 +38,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
         if(!reGex.emailValidate(employee.getEmployeeEmail())) {
             map.put("email","email is not invalid! || model: huutrungg02@gmail.com");
         }
+        if(!reGex.numberPositive(String.valueOf(employee.getSalary()))) {
+            map.put("salary","salary must be a positive number");
+        }
         if (map.isEmpty()) {
             iEmployeeRepository.updateUser(employee);
         }
@@ -68,6 +71,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
         }
         if(!reGex.emailValidate(employee.getEmployeeEmail())) {
             map.put("email","email is not invalid! || model: huutrungg02@gmail.com");
+        }
+        if(!reGex.numberPositive(String.valueOf(employee.getSalary()))) {
+            map.put("salary","salary must be a positive number");
         }
         if (map.isEmpty()) {
             iEmployeeRepository.save(employee);

@@ -35,7 +35,9 @@
             </tr>
             <tr>
                 <th>Cost</th>
-                <td><input type="text" name="cost" size="20"></td>
+                <td><input type="text" name="cost" size="20">
+                    <p style="color: red">${error.cost}</p>
+                </td>
             </tr>
             <tr>
                 <th>Capacity</th>

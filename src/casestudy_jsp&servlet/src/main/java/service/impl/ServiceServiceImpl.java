@@ -34,6 +34,9 @@ public class ServiceServiceImpl implements IServiceService {
         if(!reGex.numberPositive(service.getNumberOfFloors())) {
             map.put("floorNumber","Number of floors must be a positive number.");
         }
+        if(!reGex.numberPositive(String.valueOf(service.getServiceCost()))) {
+            map.put("cost","cost must be a positive number");
+        }
         if (map.isEmpty()) {
             iServiceRepository.save(service);
         }

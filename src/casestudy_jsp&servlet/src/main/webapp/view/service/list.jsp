@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <html>
 <head>
     <title>Service List</title>
@@ -96,7 +98,8 @@
                     <td><c:out value="${service.serviceCode}"></c:out></td>
                     <td><c:out value="${service.serviceName}"></c:out></td>
                     <td><c:out value="${service.serviceArea}"></c:out></td>
-                    <td><c:out value="${service.serviceCost}"></c:out></td>
+                    <td><fmt:formatNumber>${service.serviceCost}</fmt:formatNumber></td>
+<%--                    <td><c:out value="${service.serviceCost}"></c:out></td>--%>
                     <td><c:out value="${service.serviceMaxPeople}"></c:out></td>
                     <td><c:forEach var="rentType" items="${rentTypes}">
                         <c:if test="${service.rentTypeId == rentType.rentTypeId}">

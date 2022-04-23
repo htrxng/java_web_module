@@ -45,6 +45,7 @@
                 <th>Salary</th>
                 <td><input type="text" name="salary" size="50"
                            value="${employee.salary}">
+                    <p style="color: red">${error.salary}</p>
                 </td>
             </tr>
             <tr>
