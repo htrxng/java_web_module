@@ -41,6 +41,7 @@ public class CustomerController extends HttpServlet {
 
     private void updateCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer id = Integer.parseInt(request.getParameter("id"));
+        String customerCode = request.getParameter("customerCode");
         Integer customerTypeId = Integer.parseInt(request.getParameter("customerTypeId"));
         String name = request.getParameter("name");
         String birthDay = request.getParameter("birthDay");
@@ -59,6 +60,7 @@ public class CustomerController extends HttpServlet {
         if (customer == null) {
             requestDispatcher = request.getRequestDispatcher("/view/customer/edit.jsp");
         } else {
+            customer.setCustomerCode(customerCode);
             customer.setCustomerId(id);
             customer.setCustomerTypeId(customerTypeId);
             customer.setCustomerName(name);
@@ -87,6 +89,7 @@ public class CustomerController extends HttpServlet {
 
     private void insertCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer customerId = null;
+        String customerCode = request.getParameter("customerCode");
         int customerTypeId = Integer.parseInt(request.getParameter("customerTypeId"));
         String customerName = request.getParameter("name");
         String birthday = request.getParameter("birthday");
@@ -100,7 +103,7 @@ public class CustomerController extends HttpServlet {
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
         String address = request.getParameter("address");
-        Customer customer = new Customer(customerId, customerTypeId, customerName, birthday, checkGender, idCard, phone, email, address);
+        Customer customer = new Customer(customerCode, customerId, customerTypeId, customerName, birthday, checkGender, idCard, phone, email, address);
         Map<String, String> map = customerService.save(customer);
         if (map.isEmpty()) {
             try {

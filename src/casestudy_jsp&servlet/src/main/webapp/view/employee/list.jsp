@@ -52,7 +52,7 @@
                         <a class="nav-link" href="index.jsp">Home</a>
                         <a class="nav-link active" href="/employees">Employee <span class="sr-only">(current)</span></a>
                         <a class="nav-link" href="/customers">Customer </a>
-                        <a class="nav-link disabled">Service</a>
+                        <a class="nav-link" href="/services">Service</a>
                         <a class="nav-link disabled">Contract</a>
                     </div>
                 </div>

@@ -52,7 +52,7 @@
                         <a class="nav-link" href="index.jsp">Home</a>
                         <a class="nav-link" href="/employees">Employee</a>
                         <a class="nav-link active" href="/customers">Customer <span class="sr-only">(current)</span></a>
-                        <a class="nav-link disabled">Service</a>
+                        <a class="nav-link" href="/services">Service</a>
                         <a class="nav-link disabled">Contract</a>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
             <table id="tableCustomer" class="table table-striped table-bordered ">
                 <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Customer Code</th>
                     <th>Customer Type</th>
                     <th>Name</th>
                     <th>Birthday</th>
@@ -103,7 +103,7 @@
                 <tbody>
                 <c:forEach var="customer" items="${customers}">
                     <tr>
-                        <td><c:out value="${customer.customerId}"/></td>
+                        <td><c:out value="${customer.customerCode}"/></td>
                         <td><c:forEach var="customerType" items="${typeCustomers}">
                             <c:if test="${customer.customerTypeId == customerType.customerTypeId}">
                                 ${customerType.customerTypeName}

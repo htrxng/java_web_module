@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Create</title>
 </head>
 <body>
 <div align="center">
@@ -18,6 +18,13 @@
             <caption>
                 <h2>Add New Customer</h2>
             </caption>
+            <tr>
+                <th>Customer Code:</th>
+                <td>
+                    <input type="text" name="customerCode" size="30">
+                    <p style="color: red">${error.customerCode}</p>
+                </td>
+            </tr>
             <tr>
                 <th>customerType:</th>
                 <td>
@@ -53,7 +60,6 @@
                 <td>
                     <input type="text" name="idCard" id="idCard" size="20"/>
                     <p style="color: red">${error.idCard}</p>
-
                 </td>
             </tr>
             <tr>
@@ -67,6 +73,7 @@
                 <th>customerEmail:</th>
                 <td>
                     <input type="text" name="email" id="email" size="20"/>
+                    <p style="color: red">${error.email}</p>
                 </td>
             </tr>
             <tr>

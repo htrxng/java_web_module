@@ -28,8 +28,9 @@
             </caption>
 
             <c:if test="${customer != null}">
-                <input type="hidden" name="id" value="<c:out value='${customer.customerId}' />"/>
+                <input type="hidden" name="id" value="${customer.customerId}"/>
             </c:if>
+            <input type="hidden" name="customerCode" value="<c:out value="${customer.customerCode}"/>"/>
             <tr>
                 <th>customerType:</th>
                 <td>
@@ -66,8 +67,8 @@
                 <th>Gender:</th>
                 <td>
                     <select name="gender">
-                        <option value="1">FeMale</option>
-                        <option value="0">Male</option>
+                        <option value="0">FeMale</option>
+                        <option value="1">Male</option>
                     </select>
                 </td>
             </tr>
@@ -95,6 +96,7 @@
                     <input type="text" name="email" size="35"
                            value="<c:out value='${customer.customerEmail}' />"
                     />
+                    <p style="color: red">${error.email}</p>
                 </td>
             </tr>
             <tr>

@@ -1,7 +1,8 @@
 package model;
 
 public class Service {
-    private int serviceId;
+    private String serviceCode;
+    private Integer serviceId;
     private String serviceName;
     private int serviceArea;
     private double serviceCost;
@@ -11,13 +12,14 @@ public class Service {
     private String standardRoom;
     private String descriptionOtherConvenience;
     private double poolArea;
-    private int numberOfFloors;
+    private String numberOfFloors;
 
 
     public Service() {
     }
 
-    public Service(int serviceId, String serviceName, int serviceArea, double serviceCost, int serviceMaxPeople, int rentTypeId, int serviceTypeId, String standardRoom, String descriptionOtherConvenience, double poolArea, int numberOfFloors) {
+    public Service( String serviceCode,Integer serviceId, String serviceName, int serviceArea, double serviceCost, int serviceMaxPeople, int rentTypeId, int serviceTypeId, String standardRoom, String descriptionOtherConvenience, double poolArea, String numberOfFloors) {
+        this.serviceCode = serviceCode;
         this.serviceId = serviceId;
         this.serviceName = serviceName;
         this.serviceArea = serviceArea;
@@ -31,11 +33,19 @@ public class Service {
         this.numberOfFloors = numberOfFloors;
     }
 
-    public int getServiceId() {
+    public String getServiceCode() {
+        return serviceCode;
+    }
+
+    public void setServiceCode(String serviceCode) {
+        this.serviceCode = serviceCode;
+    }
+
+    public Integer getServiceId() {
         return serviceId;
     }
 
-    public void setServiceId(int serviceId) {
+    public void setServiceId(Integer serviceId) {
         this.serviceId = serviceId;
     }
 
@@ -111,11 +121,11 @@ public class Service {
         this.poolArea = poolArea;
     }
 
-    public int getNumberOfFloors() {
+    public String getNumberOfFloors() {
         return numberOfFloors;
     }
 
-    public void setNumberOfFloors(int numberOfFloors) {
+    public void setNumberOfFloors(String numberOfFloors) {
         this.numberOfFloors = numberOfFloors;
     }
 }

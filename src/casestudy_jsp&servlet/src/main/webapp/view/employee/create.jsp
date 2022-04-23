@@ -54,6 +54,8 @@
                 <td>
                     <input type="text" name="email" id="email" size="20"/>
                 </td>
+                <p style="color: red">${error.email}</p>
+
             </tr>
             <tr>
                 <th>Address:</th>

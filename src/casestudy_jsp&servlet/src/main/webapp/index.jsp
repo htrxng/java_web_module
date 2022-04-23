@@ -60,7 +60,7 @@
                         <a class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
                         <a class="nav-link" href="/employees">Employee</a>
                         <a class="nav-link" href="/customers">Customer</a>
-                        <a class="nav-link disabled">Service</a>
+                        <a class="nav-link" href="/services">Service</a>
                         <a class="nav-link disabled">Contract</a>
                     </div>
                 </div>

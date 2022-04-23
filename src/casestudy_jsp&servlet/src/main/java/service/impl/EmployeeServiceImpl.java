@@ -35,6 +35,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
         if (!reGex.passportValidate(employee.getEmployeeIdCard())) {
             map.put("idCard", "ID Card is not invalid! || ID CARD must be have 9 or 12 number.");
         }
+        if(!reGex.emailValidate(employee.getEmployeeEmail())) {
+            map.put("email","email is not invalid! || model: huutrungg02@gmail.com");
+        }
         if (map.isEmpty()) {
             iEmployeeRepository.updateUser(employee);
         }
@@ -62,6 +65,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
         }
         if (!reGex.passportValidate(employee.getEmployeeIdCard())) {
             map.put("idCard", "ID Card is not invalid! || ID CARD must be have 9 or 12 number.");
+        }
+        if(!reGex.emailValidate(employee.getEmployeeEmail())) {
+            map.put("email","email is not invalid! || model: huutrungg02@gmail.com");
         }
         if (map.isEmpty()) {
             iEmployeeRepository.save(employee);

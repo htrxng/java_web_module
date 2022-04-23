@@ -62,6 +62,7 @@
                     <input type="text" name="email" size="35"
                            value="${employee.employeeEmail}"
                     />
+                    <p style="color: red">${error.email}</p>
                 </td>
             </tr>
             <tr>

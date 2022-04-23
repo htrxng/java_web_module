@@ -29,6 +29,12 @@ public class CustomerServiceImpl implements ICustomerService {
         if(!reGex.passportValidate(customer.getCustomerIdCard())){
             map.put("idCard","ID Card is not invalid! || ID CARD must be have 9 or 12 number.");
         }
+        if(!reGex.codeCustomerCheck(customer.getCustomerCode())){
+            map.put("customerCode","customerCode: [KH-XXXX] (X is number.)");
+        }
+        if(!reGex.emailValidate(customer.getCustomerEmail())) {
+            map.put("email","email is not invalid! || model: huutrungg02@gmail.com");
+        }
         if(map.isEmpty()) {
             iCustomerRepository.save(customer);
         }
@@ -50,6 +56,12 @@ public class CustomerServiceImpl implements ICustomerService {
         }
         if(!reGex.passportValidate(customer.getCustomerIdCard())){
             map.put("idCard","ID Card is not invalid! || ID CARD must be have 9 or 12 number.");
+        }
+        if(!reGex.codeCustomerCheck(customer.getCustomerCode())){
+            map.put("customerCode","customerCode: [KH-XXXX] (X is number.)");
+        }
+        if(!reGex.emailValidate(customer.getCustomerEmail())) {
+            map.put("email","email is not invalid! || model: huutrungg02@gmail.com");
         }
         if(map.isEmpty()) {
             iCustomerRepository.updateUser(customer);
