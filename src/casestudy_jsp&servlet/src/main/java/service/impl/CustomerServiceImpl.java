@@ -76,7 +76,7 @@ public class CustomerServiceImpl implements ICustomerService {
     }
 
     @Override
-    public List<Customer> search(String customerTypeId,String keyWordName , String keyWordEmail) {
+    public List<Customer>search(String customerTypeId,String keyWordName , String keyWordEmail) {
             return iCustomerRepository.search(customerTypeId,keyWordName,keyWordEmail);
     }
 

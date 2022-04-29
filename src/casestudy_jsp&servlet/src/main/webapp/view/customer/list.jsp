@@ -53,7 +53,7 @@
                         <a class="nav-link" href="/employees">Employee</a>
                         <a class="nav-link active" href="/customers">Customer <span class="sr-only">(current)</span></a>
                         <a class="nav-link" href="/services">Service</a>
-                        <a class="nav-link disabled">Contract</a>
+                        <a class="nav-link" href="/contracts">Contract</a>
                     </div>
                 </div>
                 <form class="form-inline">
@@ -64,9 +64,11 @@
         </div>
     </div>
     <div class="row" style="margin-left: 2%">
-
         <div id="customer-table">
-           <h1 style="text-align: center">Customer List</h1>
+           <h1 style="text-align: center">Customer List
+               <c:if test="${message != null}">
+                   <p id="message" style="color: green;">${message}</p>
+               </c:if></h1>
             <button>
                 <a href="customers?action=customers">Customer Home</a>
             </button>
@@ -84,7 +86,7 @@
                 <input type="text" name="keyWordName" placeholder="name...">
                 <input type="text" name="keyWordEmail" placeholder="email... ">
             </form>
-            <table id="tableCustomer" class="table table-striped table-bordered ">
+            <table id="tableCustomer" class="table table-striped table-bordered">
                 <thead>
                 <tr>
                     <th>Customer Code</th>
@@ -191,5 +193,12 @@
             "pageLength": 5
         });
     });
+</script>
+<script>
+    const timeout = document.getElementById('message');
+    setTimeout(hideElement, 3000) //milliseconds until timeout//
+    function hideElement() {
+        timeout.style.display = 'none'
+    }
 </script>
 </html>

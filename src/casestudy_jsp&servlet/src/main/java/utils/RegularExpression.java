@@ -3,7 +3,7 @@ package utils;
 import java.util.regex.Pattern;
 
 public class RegularExpression {
-    private final String POSITIVE_NUMBER = "[+]?\\d+";
+    private final String POSITIVE_NUMBER = "[+]?[\\d.]+";
 
     private final String POSITIVE_TENS_NUMBER = "[+]?\\d*\\.?\\d*";
 

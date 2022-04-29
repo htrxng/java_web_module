@@ -44,7 +44,7 @@ public class ServiceController extends HttpServlet {
         Integer serviceId = null;
         String serviceCode = request.getParameter("serviceCode");
         String name = request.getParameter("name");
-        int area = Integer.parseInt(request.getParameter("area"));
+        int area = Integer.parseInt(request.getParameter("area").equals("") ? "0" : request.getParameter("area"));
         double cost = Double.parseDouble(request.getParameter("cost"));
         int capacity = Integer.parseInt(request.getParameter("capacity"));
         int rentTypeId = Integer.parseInt(request.getParameter("rentTypeId"));

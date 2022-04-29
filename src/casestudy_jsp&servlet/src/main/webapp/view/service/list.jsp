@@ -54,7 +54,7 @@
                         <a class="nav-link" href="/employees">Employee</a>
                         <a class="nav-link" href="/customers">Customer</a>
                         <a class="nav-link active" href="/services">Service <span class="sr-only">(current)</span></a>
-                        <a class="nav-link disabled">Contract</a>
+                        <a class="nav-link" href="/contracts">Contract</a>
                     </div>
                 </div>
                 <form class="form-inline">

@@ -82,11 +82,11 @@
                         <c:forEach var="position" items="${positions}">
                             <c:if test="${employee.positionId == position.positionId}">
                                 <option selected
-                                        value="${employee.positionId}">${position.positionName}</option>
+                                        value="${position.positionId}">${position.positionName}</option>
                             </c:if>
 
                             <c:if test="${employee.positionId != position.positionId}">
-                                <option value="${employee.positionId}">${position.positionName}</option>
+                                <option value="${position.positionId}">${position.positionName}</option>
                             </c:if> </c:forEach>
                     </select>
                 </td>

@@ -61,7 +61,7 @@
                         <a class="nav-link" href="/employees">Employee</a>
                         <a class="nav-link" href="/customers">Customer</a>
                         <a class="nav-link" href="/services">Service</a>
-                        <a class="nav-link disabled">Contract</a>
+                        <a class="nav-link" href="/contracts">Contract</a>
                     </div>
                 </div>
                 <form class="form-inline">
