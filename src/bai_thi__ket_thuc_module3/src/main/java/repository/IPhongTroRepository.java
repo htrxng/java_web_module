@@ -11,5 +11,8 @@ public interface IPhongTroRepository {
 
     void save(PhongTro phongTro);
 
-    List<PhongTro> search(String maPhongTro, String tenNguoiThue, String soDienThoai);
+    List<PhongTro> searchByMaPhongTroAndTenNguoiThueAndHinhThucThanhToan
+            (String maPhongTro, String tenNguoiThue, int hinhThucThanhToan);
+
+    List<PhongTro> searchByMaPhongTroVaNguoiThue(String maPhongTro, String tenNguoiThue);
 }

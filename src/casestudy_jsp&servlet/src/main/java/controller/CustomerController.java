@@ -70,7 +70,7 @@ public class CustomerController extends HttpServlet {
             customer.setCustomerPhone(phone);
             customer.setCustomerEmail(email);
             customer.setCustomerAddress(address);
-            Map<String,String> map = customerService.updateUser(customer);
+            Map<String, String> map = customerService.updateUser(customer);
             if (map.isEmpty()) {
                 try {
                     response.sendRedirect("/customers");
@@ -143,7 +143,7 @@ public class CustomerController extends HttpServlet {
                 removeCustomer(request, response);
                 List<Customer> customerList = customerService.getList();
                 typeCustomerList = customerTypeService.getList();
-                request.setAttribute("message","Delete successfully!");
+                request.setAttribute("message", "Delete successfully!");
                 request.setAttribute("customers", customerList);
                 request.setAttribute("typeCustomers", typeCustomerList);
                 request.getRequestDispatcher("/view/customer/list.jsp").forward(request, response);

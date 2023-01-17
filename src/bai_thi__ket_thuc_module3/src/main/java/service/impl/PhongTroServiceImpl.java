@@ -32,7 +32,11 @@ public class PhongTroServiceImpl implements IPhongTroService {
     }
 
     @Override
-    public List<PhongTro> search(String maPhongTro, String tenNguoiThue, String soDienThoai) {
-        return iPhongTroRepository.search(maPhongTro, tenNguoiThue, soDienThoai);
+    public List<PhongTro> search(String maPhongTro, String tenNguoiThue, String hinhThucThanhToan) {
+        if(!hinhThucThanhToan.equals("")) {
+            int hinhThucThanhToanNum = Integer.parseInt(hinhThucThanhToan);
+            return iPhongTroRepository.searchByMaPhongTroAndTenNguoiThueAndHinhThucThanhToan(maPhongTro, tenNguoiThue, hinhThucThanhToanNum);
+        } else
+          return iPhongTroRepository.searchByMaPhongTroVaNguoiThue(maPhongTro,tenNguoiThue);
     }
 }

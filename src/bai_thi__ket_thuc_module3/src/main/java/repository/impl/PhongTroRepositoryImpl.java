@@ -98,19 +98,63 @@ public class PhongTroRepositoryImpl implements IPhongTroRepository {
 
     }
 
-    private static final String SELECT_ALL_PHONG_TRO_BY_KEY_WORD = "select phong_tro_id, ten_nguoi_thue_tro,so_dien_thoai,ngay_bat_dau_thue_tro,hinh_thuc_thanh_toan_id,ghi_chu from phong_tro where (phong_tro_id like ? and ten_nguoi_thue_tro like ? and so_dien_thoai like ?); ";
+    private static final String SELECT_ALL_PHONG_TRO_BY_KEY_WORD =
+            "select phong_tro_id, ten_nguoi_thue_tro,so_dien_thoai,ngay_bat_dau_thue_tro," +
+                    "hinh_thuc_thanh_toan.hinh_thuc_thanh_toan_id,ghi_chu " +
+                    "from phong_tro " +
+                    "join hinh_thuc_thanh_toan on phong_tro.hinh_thuc_thanh_toan_id = hinh_thuc_thanh_toan.hinh_thuc_thanh_toan_id " +
+                    "where (phong_tro_id like ? and ten_nguoi_thue_tro like ? and hinh_thuc_thanh_toan.hinh_thuc_thanh_toan_id = ?); ";
 
     @Override
-    public List<PhongTro> search(String maPhongTro, String tenNguoiThue, String soDienThoai) {
+    public List<PhongTro> searchByMaPhongTroAndTenNguoiThueAndHinhThucThanhToan
+            (String maPhongTro, String tenNguoiThue, int hinhThucThanhToan) {
         List<PhongTro> phongTroList = new ArrayList<>();
         PreparedStatement preparedStatement = null;
-
         try {
             preparedStatement = this.baseRepository.getConnectionJavaToDatabase()
                     .prepareStatement(SELECT_ALL_PHONG_TRO_BY_KEY_WORD);
             preparedStatement.setString(1, "%" + maPhongTro + "%");
             preparedStatement.setString(2, "%" + tenNguoiThue + "%");
-            preparedStatement.setString(3, "%" + soDienThoai + "%");
+            preparedStatement.setInt(3, hinhThucThanhToan);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            PhongTro phongTro;
+            while (resultSet.next()) {
+                phongTro = new PhongTro();
+                phongTro.setPhongTroId(resultSet.getInt("phong_tro_id"));
+                phongTro.setTenNguoiThueTro(resultSet.getString("ten_nguoi_thue_tro"));
+                phongTro.setSoDienThoai(resultSet.getString("so_dien_thoai"));
+                phongTro.setNgayBatDauThueTro(resultSet.getString("ngay_bat_dau_thue_tro"));
+                phongTro.setHinhThucThanhToanId(resultSet.getInt("hinh_thuc_thanh_toan_id"));
+                phongTro.setGhiChu(resultSet.getString("ghi_chu"));
+                phongTroList.add(phongTro);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return phongTroList;
+    }
+
+    private static final String SELECT_ALL_PHONG_TRO_BY_MA_PHONG_TRO_VA_NGUOI_THUE =
+            "select phong_tro_id, ten_nguoi_thue_tro,so_dien_thoai,ngay_bat_dau_thue_tro," +
+                    "hinh_thuc_thanh_toan_id, ghi_chu " +
+                    "from phong_tro " +
+                    "where (phong_tro_id like ? and ten_nguoi_thue_tro like ?); ";
+
+    @Override
+    public List<PhongTro> searchByMaPhongTroVaNguoiThue(String maPhongTro, String tenNguoiThue) {
+        List<PhongTro> phongTroList = new ArrayList<>();
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = this.baseRepository.getConnectionJavaToDatabase()
+                    .prepareStatement(SELECT_ALL_PHONG_TRO_BY_MA_PHONG_TRO_VA_NGUOI_THUE);
+            preparedStatement.setString(1, "%" + maPhongTro + "%");
+            preparedStatement.setString(2, "%" + tenNguoiThue + "%");
             ResultSet resultSet = preparedStatement.executeQuery();
             PhongTro phongTro;
             while (resultSet.next()) {

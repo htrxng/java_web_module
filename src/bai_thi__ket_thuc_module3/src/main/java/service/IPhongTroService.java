@@ -12,5 +12,5 @@ public interface IPhongTroService {
 
     Map<String, String> save(PhongTro phongTro);
 
-    List<PhongTro> search(String maPhongTro, String tenNguoiThue, String soDienThoai);
+    List<PhongTro> search(String maPhongTro, String tenNguoiThue, String hinhThucThanhToan);
 }

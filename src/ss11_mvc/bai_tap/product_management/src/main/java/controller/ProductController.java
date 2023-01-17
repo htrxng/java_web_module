@@ -37,6 +37,11 @@ public class ProductController extends HttpServlet {
                 request.setAttribute("products", productList);
                 request.getRequestDispatcher("list.jsp").forward(request, response);
                 break;
+            default: {
+                productList = iProductService.getList();
+                request.setAttribute("products", productList);
+                request.getRequestDispatcher("list.jsp").forward(request, response);
+            }
         }
     }
 
